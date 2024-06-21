@@ -1,0 +1,49 @@
+-- Script to track clues and suggest ghost type
+
+local player = game.Players.LocalPlayer
+
+-- Define the clues and ghost types
+local clues = {
+    EMFLevel5 = false,
+    SpiritBox = false,
+    Fingerprints = false,
+    GhostOrb = false,
+    GhostWriting = false,
+    FreezingTemperatures = false
+}
+
+local ghosts = {
+    {name = "Spirit", clues = {"SpiritBox", "Fingerprints", "GhostWriting"}},
+    {name = "Wraith", clues = {"SpiritBox", "Fingerprints", "FreezingTemperatures"}},
+    {name = "Phantom", clues = {"EMFLevel5", "GhostOrb", "FreezingTemperatures"}},
+    -- Add more ghosts and their required clues
+}
+
+-- Function to update clue status
+local function updateClue(clue, status)
+    if clues[clue] ~= nil then
+        clues[clue] = status
+    end
+end
+
+-- Function to check which ghost matches the collected clues
+local function checkGhost()
+    for _, ghost in ipairs(ghosts) do
+        local match = true
+        for _, clue in ipairs(ghost.clues) do
+            if not clues[clue] then
+                match = false
+                break
+            end
+        end
+        if match then
+            print("Possible ghost type: " .. ghost.name)
+        end
+    end
+end
+
+-- Example usage: Updating clues based on player input or events
+-- You would replace these with actual game events or UI inputs
+updateClue("EMFLevel5", true)
+updateClue("GhostOrb", true)
+checkGhost()
